@@ -1,0 +1,629 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class ALU
+{
+private:
+    int NoOfAdders;
+    int NoOfSubtractor;
+    int NoOfRegisters;
+    int sizeOfRegisters;
+    double price;
+
+public:    
+    ALU() : NoOfAdders(1), NoOfSubtractor(1), NoOfRegisters(8), sizeOfRegisters(32), price(150.0) {} 
+    
+    ALU(int adders, int subtractors, int registers, int regSize, double aluPrice)
+        : NoOfAdders(adders), NoOfSubtractor(subtractors), NoOfRegisters(registers), sizeOfRegisters(regSize), price(aluPrice) {}
+
+    int getNoOfAdders() const { return NoOfAdders; }
+    void setNoOfAdders(int adders) { NoOfAdders = adders; }
+
+    int getNoOfSubtractor() const { return NoOfSubtractor; }
+    void setNoOfSubtractor(int subtractors) { NoOfSubtractor = subtractors; }
+
+    int getNoOfRegisters() const { return NoOfRegisters; }
+    void setNoOfRegisters(int registers) { NoOfRegisters = registers; }
+
+    int getSizeOfRegisters() const { return sizeOfRegisters; }
+    void setSizeOfRegisters(int regSize) { sizeOfRegisters = regSize; }
+
+    double getPrice() const { return price; }
+    void setPrice(double aluPrice) { price = aluPrice; }
+};
+
+class ControlUnit
+{
+private:
+    float clock;
+    double price;
+
+public:
+    ControlUnit() : clock(2.0), price(100.0) {}
+
+    ControlUnit(float clockSpeed, double cuPrice)
+        : clock(clockSpeed), price(cuPrice) {}
+
+    float getClock() const { return clock; }
+    void setClock(float clockSpeed) { clock = clockSpeed; }
+
+    double getPrice() const { return price; }
+    void setPrice(double cuPrice) { price = cuPrice; }
+};
+
+class CPU
+{
+private:
+    ALU alu;
+    ControlUnit cu;
+    string architecture;
+    string integratedGPU;
+    double price;
+
+public:
+    CPU() : alu(), cu(), architecture("x86"), integratedGPU(""), price(200.0) {}
+
+    CPU(const ALU& aluComponent, const ControlUnit& cuComponent, const string& cpuArchitecture, const string& cpuIntegratedGPU, double cpuPrice)
+        : alu(aluComponent), cu(cuComponent), architecture(cpuArchitecture), integratedGPU(cpuIntegratedGPU), price(cpuPrice) {}
+
+    const ALU& getALU() const { return alu; }
+    void setALU(const ALU& aluComponent) { alu = aluComponent; }
+
+    const ControlUnit& getControlUnit() const { return cu; }
+    void setControlUnit(const ControlUnit& cuComponent) { cu = cuComponent; }
+
+    string getArchitecture() const { return architecture; }
+    void setArchitecture(const string& cpuArchitecture) { architecture = cpuArchitecture; }
+
+    string getIntegratedGPU() const { return integratedGPU; }
+    void setIntegratedGPU(const string& cpuIntegratedGPU) { integratedGPU = cpuIntegratedGPU; }
+
+    double getPrice() const { return price; }
+    void setPrice(double cpuPrice) { price = cpuPrice; }
+};
+
+class MainMemory
+{
+private:
+    int capacity;
+    string technologyType;
+    double price;
+
+public:
+    MainMemory() : capacity(8), technologyType("Semiconductor"), price(100.0) {} // Default price for MainMemory is $100
+
+    MainMemory(int memCapacity, const string& memTechType, double memPrice)
+        : capacity(memCapacity), technologyType(memTechType), price(memPrice) {}
+   
+    int getCapacity() const { return capacity; }
+    void setCapacity(int memCapacity) { capacity = memCapacity; }
+
+    string getTechnologyType() const { return technologyType; }
+    void setTechnologyType(const string& memTechType) { technologyType = memTechType; }
+
+    double getPrice() const { return price; }
+    void setPrice(double memPrice) { price = memPrice; }
+};
+
+class Port
+{
+private:
+    string type;
+    int baud_rate;
+    double price;
+
+public:
+    Port() : type("USB Port"), baud_rate(9600), price(20.0) {}
+
+    Port(const string& portType, int portBaudRate, double portPrice)
+        : type(portType), baud_rate(portBaudRate), price(portPrice) {}
+
+    string getType() const { return type; }
+    void setType(const string& portType) { type = portType; }
+
+    int getBaudRate() const { return baud_rate; }
+    void setBaudRate(int portBaudRate) { baud_rate = portBaudRate; }
+
+    double getPrice() const { return price; }
+    void setPrice(double portPrice) { price = portPrice; }
+};
+
+class MotherBoard
+{
+private:
+    MainMemory mm;
+    Port ports[4];
+    double price;
+
+public:    
+    MotherBoard() : mm(), price(150.0) {       
+        for (int i = 0; i < 4; ++i) {
+            ports[i] = Port();
+        }
+    }
+
+    MotherBoard(const MainMemory& mem, const Port* portArr, double mbPrice)
+        : mm(mem), price(mbPrice) {
+        for (int i = 0; i < 4; ++i) {
+            ports[i] = portArr[i];
+        }
+    }
+
+    const MainMemory& getMainMemory() const { return mm; }
+    void setMainMemory(const MainMemory& mem) { mm = mem; }
+
+    const Port* getPorts() const { return ports; }
+
+    double getPrice() const { return price; }
+    void setPrice(double mbPrice) { price = mbPrice; }
+};
+
+class PhysicalMemory
+{
+private:
+    int capacity;
+    string memoryType;
+    double price;
+
+public:
+    PhysicalMemory() : capacity(16), memoryType("DDR4"), price(80.0) {} // Default price for PhysicalMemory is $80
+
+    PhysicalMemory(int memCapacity, const string& memType, double memPrice)
+        : capacity(memCapacity), memoryType(memType), price(memPrice) {}
+
+    int getCapacity() const { return capacity; }
+    void setCapacity(int memCapacity) { capacity = memCapacity; }
+
+    string getMemoryType() const { return memoryType; }
+    void setMemoryType(const string& memType) { memoryType = memType; }
+
+    double getPrice() const { return price; }
+    void setPrice(double memPrice) { price = memPrice; }
+};
+
+class Computer
+{
+private:
+    PhysicalMemory pm;
+    CPU cpu;
+    MotherBoard mb;
+    double price;
+
+public:
+    Computer() : pm(), cpu(), mb(), price(800.0) {}
+
+    Computer(const PhysicalMemory& mem, const CPU& cpuComponent, const MotherBoard& mbComponent, double compPrice)
+        : pm(mem), cpu(cpuComponent), mb(mbComponent), price(compPrice) {}
+
+    const PhysicalMemory& getPhysicalMemory() const { return pm; }
+    void setPhysicalMemory(const PhysicalMemory& mem) { pm = mem; }
+
+    const CPU& getCPU() const { return cpu; }
+    void setCPU(const CPU& cpuComponent) { cpu = cpuComponent; }
+
+    const MotherBoard& getMotherBoard() const { return mb; }
+    void setMotherBoard(const MotherBoard& mbComponent) { mb = mbComponent; }
+
+    double getPrice() const { return price; }
+    void setPrice(double compPrice) { price = compPrice; }
+};
+
+class GraphicsCard
+{
+private:
+    string brand;
+    int memorySize;
+    double price;
+
+public:
+    GraphicsCard() : brand(""), memorySize(0), price(300.0) {} // Default price for GraphicsCard is $300.0
+
+    GraphicsCard(const string& cardBrand, int cardMemorySize, double cardPrice)
+        : brand(cardBrand), memorySize(cardMemorySize), price(cardPrice) {}
+
+    string getBrand() const { return brand; }
+    void setBrand(const string& cardBrand) { brand = cardBrand; }
+
+    int getMemorySize() const { return memorySize; }
+    void setMemorySize(int cardMemorySize) { memorySize = cardMemorySize; }
+
+    double getPrice() const { return price; }
+    void setPrice(double cardPrice) { price = cardPrice; }
+};
+
+class StorageDevice
+{
+private:
+    string type;
+    int capacity;
+    double price;
+
+public:
+    StorageDevice() : type(""), capacity(0), price(100.0) {} // Default price for StorageDevice is $100.0
+
+    StorageDevice(const string& deviceType, int deviceCapacity, double devicePrice)
+        : type(deviceType), capacity(deviceCapacity), price(devicePrice) {}
+
+    string getType() const { return type; }
+    void setType(const string& deviceType) { type = deviceType; }
+
+    int getCapacity() const { return capacity; }
+    void setCapacity(int deviceCapacity) { capacity = deviceCapacity; }
+
+    double getPrice() const { return price; }
+    void setPrice(double devicePrice) { price = devicePrice; }
+};
+
+class NetworkCard
+{
+private:
+    string type;
+    int speed;
+    double price;
+
+public:
+    NetworkCard() : type(""), speed(0), price(0.0) {}
+    
+    NetworkCard(const string& cardType, int cardSpeed, double cardPrice)
+        : type(cardType), speed(cardSpeed), price(cardPrice) {}
+
+    string getType() const { return type; }
+    void setType(const string& cardType) { type = cardType; }
+
+    int getSpeed() const { return speed; }
+    void setSpeed(int cardSpeed) { speed = cardSpeed; }
+
+    double getPrice() const { return price; }
+    void setPrice(double cardPrice) { price = cardPrice; }
+};  
+
+
+class PowerSupply
+{
+private:
+    int wattage;
+    string efficiencyRating;
+    double price;
+
+public:
+    PowerSupply() : wattage(0), efficiencyRating(""), price(100.0) {} // Default price for PowerSupply is $100.0
+
+    PowerSupply(int powerWattage, const string& efficiency, double powerPrice)
+        : wattage(powerWattage), efficiencyRating(efficiency), price(powerPrice) {}
+
+    int getWattage() const { return wattage; }
+    void setWattage(int powerWattage) { wattage = powerWattage; }
+
+    string getEfficiencyRating() const { return efficiencyRating; }
+    void setEfficiencyRating(const string& efficiency) { efficiencyRating = efficiency; }
+
+    double getPrice() const { return price; }
+    void setPrice(double powerPrice) { price = powerPrice; }
+}; 
+
+class Battery
+{
+private:
+    int capacity;
+    double price;
+
+public:
+    Battery() : capacity(0), price(50.0) {}
+   
+    Battery(int batteryCapacity, double batteryPrice)
+        : capacity(batteryCapacity), price(batteryPrice) {}
+
+    int getCapacity() const { return capacity; }
+    void setCapacity(int batteryCapacity) { capacity = batteryCapacity; }
+
+    double getPrice() const { return price; }
+    void setPrice(double batteryPrice) { price = batteryPrice; }
+};
+
+class Case
+{
+private:
+    string formFactor;
+    string color;
+    double price;
+
+public:
+    Case() : formFactor(""), color(""), price(100.0) {}
+
+    Case(const string& caseFormFactor, const string& caseColor, double casePrice)
+        : formFactor(caseFormFactor), color(caseColor), price(casePrice) {}
+
+    string getFormFactor() const { return formFactor; }
+    void setFormFactor(const string& caseFormFactor) { formFactor = caseFormFactor; }
+
+    string getColor() const { return color; }
+    void setColor(const string& caseColor) { color = caseColor; }
+
+    double getPrice() const { return price; }
+    void setPrice(double casePrice) { price = casePrice; }
+};
+
+class ComputerAssembly
+{
+private:
+    double totalPrice;
+
+public:
+    ComputerAssembly()
+        : totalPrice(0.0)
+    {}
+
+    ComputerAssembly(double assemblyPrice)
+        : totalPrice(assemblyPrice)
+    {}
+
+    double getTotalPrice() const { return totalPrice; }
+    void setTotalPrice(double assemblyPrice) { totalPrice = assemblyPrice; }
+};
+
+
+char getMenuChoice()
+{
+    cout << "What do you want to purchase?" << endl;
+    cout << "1. Desktop PC" << endl;
+    cout << "2. Mac Computer" << endl;
+    cout << "3. Laptop" << endl;
+    cout << "4. Tablet" << endl;
+    cout << "5. Exit program" << endl;
+    cout << endl;
+    cout << "Enter your choice   : ";
+    char choice;
+    cin >> choice;
+    return choice;
+}
+
+int main()
+{    
+    char choice = getMenuChoice();
+    
+    Computer computer;
+    
+    int cpuChoice, memoryChoice, portChoice,motherboardChoice=0, graphicsChoice, physicalChoice, storageChoice, networkChoice, psuChoice, batteryChoice, caseChoice;
+    int cpuPrice=200, memoryPrice=50, portPrice=30, mbPrice=300, graphicsPrice=150, physicalPrice=100, storagePrice=60, networkPrice=50, psuPrice=90, batteryPrice=60, casePrice=120;
+
+    switch (choice)
+    {
+    case '1':
+        cout << "Select the components for your pc." << endl;
+        cout << endl;
+        cout << "Select CPU :" << endl;
+        cout << "1. Intel\n2. AMD" << endl;
+        cin >> cpuChoice;
+        cout << endl;
+
+        cout << "Select Memory Type :" << endl;
+        cout << "1. Semiconductor\n2. Silicon" << endl;
+        cin >> memoryChoice;
+        cout << endl;
+
+        cout << "Select Port Type :" << endl;
+        cout << "1. VGI\n2. I/O\n3. USB\n4. HDMI" << endl;
+        cin >> portChoice;
+        cout << endl;
+
+        cout << "Select Physical Memory Type :" << endl;
+        cout << "1. DDR5\n2. DDR4" << endl;
+        cin >> physicalChoice;
+        cout << endl;
+
+        cout << "Select Graphics Card Type :" << endl;
+        cout << "1. Nvidia\n2. AMD" << endl;
+        cin >> graphicsChoice;
+        cout << endl;
+
+        cout << "Select Storage Type :" << endl;
+        cout << "1. SSD\n2. HDD" << endl;
+        cin >> storageChoice;
+        cout << endl;
+
+        cout << "Select Network  Type :" << endl;
+        cout << "1. Ethernet\n2. Wi-Fi" << endl;
+        cin >> networkChoice;
+        cout << endl;
+
+        cout << "SelectPower Supply Type :" << endl;
+        cout << "1. 80 watts bronze\n2. 80 watts Gold" << endl;
+        cin >> psuChoice;
+        cout << endl;
+
+        cout << "Select Battery Type :" << endl;
+        cout << "1. 65 watts\n2. 100 watts" << endl;
+        cin >> batteryChoice;
+        cout << endl;
+
+        cout << "Select Case Type :" << endl;
+        cout << "1. ATX\n2. micro ATX" << endl;
+        cin >> caseChoice;
+        cout << endl;
+
+        cout << "Your pc components are :" << endl;
+        cout << "CPU = [" << cpuChoice << "]\n Memory Type = [" << memoryChoice << "]\n Mother Board = [" << motherboardChoice << "]\n Graphics = [" << graphicsChoice << "]\n Power Supply = [" << psuChoice << "]\n Physical Memory = [" << physicalChoice << "]\nPort Type = [" << portChoice << "]"<< "\nCase = [" << caseChoice << "]" << "\nNetwork = [" << networkChoice << "]";
+        cout << endl;
+        cout << "Total Amount : "<< cpuPrice + memoryPrice + mbPrice + graphicsPrice + psuPrice + physicalPrice + portPrice + networkPrice + casePrice << endl;
+        break;
+
+    case '2':
+        cout << "Select the components for your Mac." << endl;        
+        cout << endl;
+        cout << "Select CPU :" << endl;
+        cout << "1. Apple Sillicon\n2. Apple GPU" << endl;
+        cin >> cpuChoice;
+        cout << endl;
+
+        cout << "Select Memory Type :" << endl;
+        cout << "1. Semiconductor\n2. Silicon" << endl;
+        cin >> memoryChoice;
+        cout << endl;
+
+        cout << "Select Port Type :" << endl;
+        cout << "1. VGI\n2. I/O\n3. USB\n4. HDMI" << endl;
+        cin >> portChoice;
+        cout << endl;
+
+        cout << "Select Physical Memory Type :" << endl;
+        cout << "1. LPDDR5\n2. LPDDR4" << endl;
+        cin >> physicalChoice;
+        cout << endl;
+
+        cout << "Select Graphics Card Type :" << endl;
+        cout << "1. Integrated Apple GPU" << endl;
+        cin >> graphicsChoice;
+        cout << endl;
+
+        cout << "Select Storage Type :" << endl;
+        cout << "1. SSD\n2. HDD" << endl;
+        cin >> storageChoice;
+        cout << endl;
+
+        cout << "Select Network  Type :" << endl;
+        cout << "1. Ethernet\n2. Wi-Fi" << endl;
+        cin >> networkChoice;
+        cout << endl;
+
+        cout << "SelectPower Supply Type :" << endl;
+        cout << "1. 80 watts bronze\n2. 80 watts Gold" << endl;
+        cin >> psuChoice;
+        cout << endl;
+
+        cout << "Select Battery Type :" << endl;
+        cout << "1. 65 watts\n2. 100 watts" << endl;
+        cin >> batteryChoice;
+        cout << endl;
+
+        cout << "Select Case Type :" << endl;
+        cout << "1. ATX\n2. micro ATX" << endl;
+        cin >> caseChoice;
+        cout << endl;
+
+        cout << "Your Mac computer components are :" << endl;
+        cout << "CPU = [" << cpuChoice << "]\n Memory Type = [" << memoryChoice << "]\n Mother Board = [" << motherboardChoice << "]\n Graphics = [" << graphicsChoice << "]\n Power Supply = [" << psuChoice << "]\n Physical Memory = [" << physicalChoice << "]\nPort Type = [" << portChoice << "]" << "\nCase = [" << caseChoice << "]";
+        cout << endl;
+        cout << "Total Amount : " << cpuPrice + memoryPrice + mbPrice + graphicsPrice + psuPrice + physicalPrice + portPrice + networkPrice + casePrice << endl;
+        break;
+
+    case '3':
+        cout << "Select the components for your laptop." << endl;
+        cout << endl;
+        cout << "Select CPU :" << endl;
+        cout << "1. Intel\n2. AMD" << endl;
+        cin >> cpuChoice;
+        cout << endl;
+
+        cout << "Select Memory Type :" << endl;
+        cout << "1. Semiconductor\n2. Silicon" << endl;
+        cin >> memoryChoice;
+        cout << endl;
+
+        cout << "Select Port Type :" << endl;
+        cout << "1. VGI\n2. I/O\n3. USB\n4. HDMI" << endl;
+        cin >> portChoice;
+        cout << endl;
+
+        cout << "Select Physical Memory Type :" << endl;
+        cout << "1. DDR5\n2. DDR4" << endl;
+        cin >> physicalChoice;
+        cout << endl;
+
+        cout << "Select Graphics Card Type :" << endl;
+        cout << "1. Nvidia\n2. AMD" << endl;
+        cin >> graphicsChoice;
+        cout << endl;
+
+        cout << "Select Storage Type :" << endl;
+        cout << "1. SSD\n2. HDD" << endl;
+        cin >> storageChoice;
+        cout << endl;
+
+        cout << "Select Network  Type :" << endl;
+        cout << "1. Ethernet\n2. Wi-Fi" << endl;
+        cin >> networkChoice;
+        cout << endl;
+
+        cout << "SelectPower Supply Type :" << endl;
+        cout << "1. 80 watts bronze\n2. 80 watts Gold" << endl;
+        cin >> psuChoice;
+        cout << endl;
+
+        cout << "Select Battery Type :" << endl;
+        cout << "1. 65 watts\n2. 100 watts" << endl;
+        cin >> batteryChoice;
+        cout << endl;
+
+        cout << "Select Case Type :" << endl;
+        cout << "1. ATX\n2. micro ATX" << endl;
+        cin >> caseChoice;
+        cout << endl;
+
+        cout << "Your pc components are :" << endl;
+        cout << "CPU = [" << cpuChoice << "]\n Memory Type = [" << memoryChoice << "]\n Mother Board = [" << motherboardChoice << "]\n Graphics = [" << graphicsChoice << "]\n Power Supply = [" << psuChoice << "]\n Physical Memory = [" << physicalChoice << "]\nPort Type = [" << portChoice << "]";
+        cout << endl;
+        cout << "Total Amount : " << cpuPrice + memoryPrice + mbPrice + graphicsPrice + psuPrice + physicalPrice + portPrice + networkPrice << endl;
+        break;
+
+    case '4':
+        cout << "Select the components for your tablet." << endl;        
+        cout << endl;
+        cout << "Select CPU :" << endl;
+        cout << "1. Intel\n2. AMD" << endl;
+        cin >> cpuChoice;
+        cout << endl;
+
+        cout << "Select Memory Type :" << endl;
+        cout << "1. Semiconductor\n2. Silicon" << endl;
+        cin >> memoryChoice;
+        cout << endl;
+
+        cout << "Select Port Type :" << endl;
+        cout << "1. VGI\n2. I/O\n3. USB\n4. HDMI" << endl;
+        cin >> portChoice;
+        cout << endl;
+
+        cout << "Select Physical Memory Type :" << endl;
+        cout << "1. DDR5\n2. DDR4" << endl;
+        cin >> physicalChoice;
+        cout << endl;
+
+        cout << "Select Graphics Card Type :" << endl;
+        cout << "1. Nvidia\n2. AMD" << endl;
+        cin >> graphicsChoice;
+        cout << endl;
+
+        cout << "Select Storage Type :" << endl;
+        cout << "1. SSD\n2. HDD" << endl;
+        cin >> storageChoice;
+        cout << endl;
+
+        cout << "Select Network  Type :" << endl;
+        cout << "1. Ethernet\n2. Wi-Fi" << endl;
+        cin >> networkChoice;
+        cout << endl;
+
+        cout << "SelectPower Supply Type :" << endl;
+        cout << "1. 80 watts bronze\n2. 80 watts Gold" << endl;
+        cin >> psuChoice;
+        cout << endl;
+
+        cout << "Select Battery Type :" << endl;
+        cout << "1. 65 watts\n2. 100 watts" << endl;
+        cin >> batteryChoice;
+        cout << endl;        
+
+        cout << "Your pc components are :" << endl;
+        cout << "CPU = [" << cpuChoice << "]\n Memory Type = [" << memoryChoice << "]\n Mother Board = [" << motherboardChoice << "]\n Graphics = [" << graphicsChoice << "]\n Power Supply = [" << psuChoice << "]\n Physical Memory = [" << physicalChoice << "]\nPort Type = [" << portChoice << "]";
+        cout << endl;
+        cout << "Total Amount : " << cpuPrice + memoryPrice + mbPrice + graphicsPrice + psuPrice + physicalPrice + portPrice + networkPrice << endl;
+        break;
+
+    default:
+        cout << "Exiting Program!  Thank you for using" << endl;
+        return 1; 
+    }    
+
+    return 0;
+}
